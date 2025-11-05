@@ -1,0 +1,88 @@
+PFE Task – Flask App Containerization & CI/CD
+
+## Project Overview
+
+This project demonstrates the containerization and deployment of a simple Flask app using Docker, Kubernetes, and GitHub Actions CI 
+i can do  terraform but my azure sub is over
+
+**Key features implemented:**
+
+- Multi-stage Dockerfile for a small Flask app
+- Docker Compose setup for local testing
+- Kubernetes manifests for deployment (Minikube tested)
+- GitHub Actions CI workflow:
+  - Lints Python code with `flake8`
+  - Builds Docker image
+  
+
+---
+
+## Project Structure
+
+pfe-task/
+│
+├─ app/ # Flask app source code
+│ ├─ app.py
+│ └─ requirements.txt
+│
+├─ k8s/ # Kubernetes manifests
+│ ├─ deployment.yaml
+│ └─ service.yaml
+│
+├─ .github/workflows/ # GitHub Actions CI
+│ └─ ci.yml
+│
+├─ Dockerfile # Multi-stage Dockerfile
+├─ docker-compose.yml # Docker Compose setup
+├─ README.md
+└─ .gitignore
+
+
+---
+
+## Setup Instructions
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/<your-username>/pfe-task.git
+cd pfe-task
+
+2. Local Development (Optional)
+
+python3 -m venv venv
+source venv/bin/activate
+pip install -r app/requirements.txt
+
+3. Run with Docker Compose
+
+docker-compose up --build
+
+    Access app at: http://localhost:5000/tasks
+
+4. Build & Run Docker Image
+
+docker build -t pfe-task:latest .
+docker run -p 5000:5000 pfe-task:latest
+
+5. Kubernetes Deployment (Minikube)
+
+kubectl apply -f k8s/deployment.yaml
+kubectl apply -f k8s/service.yaml
+kubectl get pods
+minikube service pfe-task-app
+
+GitHub Actions CI/CD
+
+    Runs automatically on push to main branch
+
+    Steps:
+
+        Checkout code
+
+        Install dependencies
+
+        Lint Python code with flake8
+
+        
+
