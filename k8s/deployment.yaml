@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pfe-task-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: pfe-task-app
+  template:
+    metadata:
+      labels:
+        app: pfe-task-app
+    spec:
+      containers:
+        - name: pfe-task-app
+          image: jaffela/pfe-task:latest   # <- your working image
+          ports:
+            - containerPort: 5000
