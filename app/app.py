@@ -2,36 +2,27 @@ from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
-tasks = []
-task_id_counter = 1
+tasks = [
+    {"id": 1, "title": "Do homework"},
+    {"id": 2, "title": "Write report"},
+]
+
 
 @app.route("/tasks", methods=["GET"])
 def get_tasks():
     return jsonify(tasks)
 
+
 @app.route("/tasks", methods=["POST"])
-def create_task():
-    global task_id_counter
+def add_task():
     data = request.get_json()
-    task = {"id": task_id_counter, "title": data.get("title", ""), "done": False}
-    tasks.append(task)
-    task_id_counter += 1
-    return jsonify(task), 201
+    new_task = {
+        "id": len(tasks) + 1,
+        "title": data.get("title", "")
+    }
+    tasks.append(new_task)
+    return jsonify(new_task), 201
 
-@app.route("/tasks/<int:task_id>/done", methods=["PUT"])
-def mark_done(task_id):
-    for task in tasks:
-        if task["id"] == task_id:
-            task["done"] = True
-            return jsonify(task)
-    return jsonify({"error": "Task not found"}), 404
-
-@app.route("/tasks/<int:task_id>", methods=["DELETE"])
-def delete_task(task_id):
-    global tasks
-    tasks = [task for task in tasks if task["id"] != task_id]
-    return jsonify({"message": "Deleted"}), 200
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
-
